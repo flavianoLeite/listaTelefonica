@@ -58,9 +58,13 @@
 					if (!contato.selecionado)
 						return contato;
 				});
-
-				console.log(contatosSelecionados);
 			};
+
+			$scope.isContatoSelecionado = function(contatos){
+				return contatos.some(function(contato){
+					return contato.selecionado;
+				});
+			}
 
 			$scope.classe1 = "selecionado";
 			$scope.classe2 = "negrito";
@@ -93,7 +97,7 @@
 			<option value="">Selecione um operadora</option>
 		</select>
 		<button class="btn-block btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar</button>
-		<button class="btn-block btn btn-danger" ng-click="apagarContatos(contatos)" >Apagar Contatos</button>
+		<button class="btn-block btn btn-danger" ng-click="apagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)">Apagar Contatos</button>
 	</div>
 </body>
 </html> 

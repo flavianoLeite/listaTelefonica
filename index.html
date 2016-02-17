@@ -53,6 +53,15 @@
 				delete $scope.contato;				
 			}
 
+			$scope.apagarContatos = function(contatos){
+				$scope.contatos = contatos.filter(function(contato){
+					if (!contato.selecionado)
+						return contato;
+				});
+
+				console.log(contatosSelecionados);
+			};
+
 			$scope.classe1 = "selecionado";
 			$scope.classe2 = "negrito";
 		});
@@ -61,8 +70,7 @@
 </head>
 <body ng-controller="listaTelefonicaCtrl">
 	<div class="jumbotron">
-		<h3>{{app}}</h3>
-		{{contatos}}
+		<h3>{{app}}</h3>		
 		<table class="table">
 			<tr>
 				<th></th>
@@ -70,7 +78,7 @@
 				<th>Telefone</th>
 				<th>Operadora</th>
 			</tr>
-			<tr ng-class="{selecionado : contato.selecionado, negrito : contato.selecionado}" ng-repeat="contato in contatos">
+			<tr ng-class="{'selecionado  negrito': contato.selecionado}" ng-repeat="contato in contatos">
 				<td><input type="checkbox" ng-model="contato.selecionado"/> </td>
 				<td>{{contato.nome}}</td>
 				<td>{{contato.telefone}}</td>
@@ -85,6 +93,7 @@
 			<option value="">Selecione um operadora</option>
 		</select>
 		<button class="btn-block btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar</button>
+		<button class="btn-block btn btn-danger" ng-click="apagarContatos(contatos)" >Apagar Contatos</button>
 	</div>
 </body>
 </html> 

@@ -65,7 +65,7 @@
 		<hr/>
 		<input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome" />
 		<input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone" />
-		<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras">
+		<select class="form-control" ng-model="contato.operadora" ng-options="operadora.codigo as operadora.nome for operadora in operadoras">
 			<option value="">Selecione um operadora</option>
 		</select>
 		<button class="btn-block btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar</button>

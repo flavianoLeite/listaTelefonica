@@ -16,6 +16,10 @@
 		.table{
 			margin-top: 20px;
 		}
+
+		.form-control{
+			margin-bottom: 5px;
+		}
 	</style>
 	<script src="lib/angular/angular.js"></script>
 	<script>
@@ -27,7 +31,13 @@
 				{nome: "Ana", telefone: "21345678"},
 				{nome: "Maria", telefone: "78345678"}
 			];
+
+			$scope.adicionarContato = function(contato){
+				$scope.contatos.push(angular.copy(contato));
+				delete $scope.contato;				
+			}
 		});
+
 	</script>
 </head>
 <body ng-controller="listaTelefonicaCtrl">
@@ -39,11 +49,14 @@
 				<th>Telefone</th>				
 			</tr>
 			<tr ng-repeat="contato in contatos">
-				<td ng-repeat="(key, value) in contato">
-					{{value}}
-				</td>
+				<td>{{contato.nome}}</td>
+				<td>{{contato.telefone}}</td>
 			</tr>
 		</table>
+		<hr/>
+		<input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome" />
+		<input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone" />
+		<button class="btn-block btn btn-primary" ng-click="adicionarContato(contato)">Adicionar</button>
 	</div>
 </body>
 </html> 

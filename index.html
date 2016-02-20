@@ -74,7 +74,7 @@
 </head>
 <body ng-controller="listaTelefonicaCtrl">
 	<div class="jumbotron">
-		<h3>{{app}}</h3>		
+		<h3>{{app}}</h3>			
 		<table class="table" ng-show="contatos.length > 0">
 			<tr>
 				<th></th>
@@ -91,14 +91,19 @@
 		</table>
 				{{contato}}
 		<hr/>
-		<input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome" />
-		<input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone" />
-		<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras">
-			<option value="">Selecione um operadora</option>
-		</select>
-		<button class="btn-block btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar</button>
+		<form name="contatoForm">
+			<input class="form-control" type="text" name="nome" ng-model="contato.nome" placeholder="Nome" ng-required="true" />
+			<input class="form-control" type="text" name="telefone" ng-model="contato.telefone" placeholder="Telefone" ng-required="true" />
+			<select class="form-control"  name="telefone" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras" ng-required="true">
+				<option value="">Selecione um operadora</option>
+			</select>
+		</form>
+		<button class="btn-block btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid" >Adicionar</button>
 		<button class="btn-block btn btn-danger" ng-click="apagarContatos(contatos)" ng-if="isContatoSelecionado(contatos)">Apagar Contatos</button>
 	</div>	
+	<pre>
+			{{contatoForm | json}}
+		</pre>	
 	<div ng-include="'footer.html'"></div>
 </body>
 </html> 

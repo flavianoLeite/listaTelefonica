@@ -86,7 +86,7 @@
 				<th>Operadora</th>
 				<th>Data</th>
 			</tr>
-			<tr ng-class="{'selecionado  negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca | orderBy:'+nome'">
+			<tr ng-class="{'selecionado  negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca | orderBy:'-nome'">
 				<td><input type="checkbox" ng-model="contato.selecionado"/> </td>
 				<td>{{contato.nome | uppercase}}</td>
 				<td>{{contato.telefone}}</td>

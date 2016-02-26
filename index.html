@@ -34,26 +34,35 @@
 	<script src="lib/angular/angular-messages.js"></script>
 	<script>
 		angular.module("listaTelefonica",["ngMessages"]);
-		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $http){
 			$scope.app = "Lista Telefonica";
-			$scope.contatos = [
-				{nome: "Pedro", telefone: "12345678", data : new Date(), operadora: {nome: "Oi", codigo: 14, categoria : "Celular"} },
-				{nome: "Ana", telefone: "21345678", data : new Date(), operadora: {nome: "Vivo", codigo: 15, categoria: "Celular"} },
-				{nome: "Maria", telefone: "78345678", data : new Date(), operadora: {nome: "Tim", codigo: 41, categoria: "Celular"} }
-			];
+			$scope.contatos = [];
+			$scope.operadoras = [];
+			var carregarContatos = function(){
+				$http.get("http://localhost:8080/SistemaAtendimento/ws/atendimento/contatos").success(function(data,status){					
+					$scope.contatos = data;
+				}).error(function(data){
+					console.log(data);
+				});
+			}
 
-			$scope.operadoras = [
-				{nome: "Oi", codigo: 14, categoria : "Celular", preco : 1 },
-				{nome: "Vivo", codigo: 15, categoria: "Celular", preco : 2},
-				{nome: "Tim", codigo: 41, categoria: "Celular",  preco : 3},
-				{nome: "GVT", codigo: 25, categoria: "Fixo" , preco : 4},
-				{nome: "Embratel", codigo: 21, categoria: "Fixo" , preco : 5  }
-			];
+			var carregarOperadoras = function(){
+				$http.get("http://localhost:8080/SistemaAtendimento/ws/atendimento/operadoras").success(function(data){
+					$scope.operadoras = data;
+				}).error(function(data){
+					console.log(data);
+				});
+			}
 
 			$scope.adicionarContato = function(contato){
-				$scope.contatos.push(angular.copy(contato));
+				$http.post("http://localhost:8080/SistemaAtendimento/ws/atendimento/contatos", contato).success(function(data){				
+					delete $scope.contato;	
+					$scope.contatoForm.$setPristine()	
+				});
+
+				/*$scope.contatos.push(angular.copy(contato));
 				delete $scope.contato;	
-				$scope.contatoForm.$setPristine()			
+				$scope.contatoForm.$setPristine()	*/		
 			}
 
 			$scope.apagarContatos = function(contatos){
@@ -76,6 +85,8 @@
 
 			$scope.classe1 = "selecionado";
 			$scope.classe2 = "negrito";
+			carregarContatos();
+			carregarOperadoras();
 		});
 
 	</script>
@@ -94,7 +105,7 @@
 			</tr>
 			<tr ng-class="{'selecionado  negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
 				<td><input type="checkbox" ng-model="contato.selecionado"/> </td>
-				<td>{{contato.nome | uppercase}}</td>
+				<td>{{contato.nome }}</td>
 				<td>{{contato.telefone}}</td>
 				<td>{{contato.operadora.nome | lowercase}}</td>
 				<td>{{contato.data | date:'dd/MM/yyyy HH:mm ' }}</td>
